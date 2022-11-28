@@ -13,8 +13,8 @@ def execute_query(query):
     cursor = conn.cursor()
     cursor.execute(query)
     for row in cursor:
-        print(row)
+        print("Produto atualizado: %s" % row[0])
     # conn.close()
 
 
-execute_query('SELECT MAX(CODPROD) FROM TGFPRO')
+execute_query(v.QUERY)
