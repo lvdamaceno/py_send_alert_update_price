@@ -1,18 +1,20 @@
 import pymssql
 import variables as v
 
-conn = pymssql.connect(v.SERVER_NAME, v.USER, v.PSSWD, v.DATABASE)
-cursor = conn.cursor(as_dict=True)
 
-# cursor.execute('SELECT * FROM persons WHERE salesrep=%s', 'John Doe')
-# for row in cursor:
-#    print("ID=%d, Name=%s" % (row['id'], row['name']))
+def connect():
+    conn = pymssql.connect(v.SERVER_NAME, v.USER, v.PSSWD, v.DATABASE)
+    return conn
 
-cursor = conn.cursor()
-cursor.execute('SELECT TOP 1 CODPROD FROM TGFPRO')
-row = cursor.fetchone()
-while row:
-    print(str(row[0]) + " " + str(row[1]) + " " + str(row[2]))
-    row = cursor.fetchone()
 
-conn.close()
+def execute_query(query):
+    conn = connect()
+    conn.cursor(as_dict=True)
+    cursor = conn.cursor()
+    cursor.execute(query)
+    for row in cursor:
+        print(row)
+    # conn.close()
+
+
+execute_query('SELECT MAX(CODPROD) FROM TGFPRO')
